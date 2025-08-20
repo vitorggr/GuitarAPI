@@ -1,0 +1,27 @@
+[
+  {
+    "id": "7df9478a-d38c-4dff-9116-98229b859fab",
+    "username": "usuario1",
+    "password": "senha123"
+  },
+  {
+    "id": "29d0afbc-95c4-44fc-b22b-8d99d09ca739",
+    "username": "usuario2",
+    "password": "senha123123"
+  },
+  {
+    "id": "c6f504eb-9a4e-467d-9045-cada8a7b9440",
+    "username": "usuario_teste",
+    "password": "senha123"
+  },
+  {
+    "id": "f1e5966c-ebbc-45dc-a292-dcf25d622668",
+    "username": "usuario_teste2",
+    "password": "senha123"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "username": "admin",
+    "password": "admin"
+  }
+]

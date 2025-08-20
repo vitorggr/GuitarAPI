@@ -1,0 +1,19 @@
+# Node
+node_modules/
+dist/
+.env
+*.log
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Dados locais
+src/infra/data/*.json
+!src/infra/data/brands.json
+!src/infra/data/types.json
+!src/infra/data/guitars.json
+!src/infra/data/users.json
