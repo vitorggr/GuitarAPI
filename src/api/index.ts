@@ -40,7 +40,7 @@ const swaggerSpec = swaggerJsdoc({
     info: {
       title: 'GuitarAPI',
       version: '1.0.0',
-      description: 'API para gerenciamento de guitarras, marcas e tipos',
+      description: 'API para gerenciamento de guitarras e marcas',
     },
     components: {
       securitySchemes: {
