@@ -1,9 +1,17 @@
+---
+
+## Conceitos Utilizados
+
+- **Injeção de dependência (DI):** Técnica para desacoplar componentes do sistema. No projeto, controllers e services recebem repositórios via interfaces, e o container do tsyringe resolve a implementação concreta. Isso facilita testes, manutenção e troca de implementações.
+- **Mongoose:** ODM (Object Data Modeling) para MongoDB em Node.js. Permite definir schemas, models e realizar operações no banco de dados de forma orientada a objetos.
+- **Atlas:** Serviço de banco de dados MongoDB gerenciado na nuvem, fornecendo alta disponibilidade, backups e fácil escalabilidade.
+- **dotenv:** Biblioteca para carregar variáveis de ambiente do arquivo `.env` para `process.env`, facilitando a configuração de dados sensíveis (ex: string de conexão).
 
 ---
 
 # GuitarAPI
 
-> API RESTful criada para fins acadêmicos e de demonstração para gerenciamento de guitarras e marcas, construída com TypeScript, Express e persistência em arquivos JSON.
+API RESTful criada para fins acadêmicos e de demonstração para gerenciamento de guitarras e marcas, construída com TypeScript, Express, MongoDB (Mongoose) e injeção de dependência.
 
 ---
 
@@ -22,11 +30,11 @@ A API está publicada gratuitamente no Render e pode ser acessada pelos links ab
 - PATCH para ativar/desativar marcas (`/brands/{id}/isActive`)
 - Endpoint para validação de token JWT (`/auth/authorize`)
 - JWT seguro: tokens são assinados com uma chave secreta forte (256 bits)
-- Persistência dos dados em arquivos JSON (sem banco de dados externo)
+- Persistência dos dados em MongoDB Atlas (banco de dados na nuvem)
 - Validação dos DTOs com mensagens em português
 - Rotas protegidas por autenticação JWT
 - Documentação automática via Swagger
-- Dados iniciais já inclusos para fins de demonstração
+- Injeção de dependência com tsyringe
 
 ---
 
@@ -50,30 +58,43 @@ A API está publicada gratuitamente no Render e pode ser acessada pelos links ab
 
 ---
 
+
 ## Primeiros Passos (Desenvolvimento Local)
 
 1. Instale as dependências:
-   ```sh
-   npm install
-   ```
-2. Rode em modo desenvolvimento:
-   ```sh
-   npm run dev
-   ```
-3. Acesse a documentação Swagger localmente em [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
+  ```sh
+  npm install
+  ```
+2. Configure o banco de dados:
+  - Crie uma conta gratuita no [MongoDB Atlas](https://www.mongodb.com/atlas/database)
+  - Crie um cluster, usuário e obtenha a connection string
+  - Crie um arquivo `.env` na raiz do projeto com:
+    ```env
+    MONGODB_URI=<sua_connection_string>
+    ```
+  - Exemplo:
+    ```env
+    MONGODB_URI=mongodb+srv://usuario:senha@cluster0.mongodb.net/guitarapi?retryWrites=true&w=majority
+    ```
+3. Rode em modo desenvolvimento:
+  ```sh
+  npm run dev
+  ```
+4. Acesse a documentação Swagger localmente em [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
 
 ---
 
 ## Como rodar os testes automatizados
+
 
 ### Pré-requisitos
 - Certifique-se de ter instalado todas as dependências do projeto:
   ```sh
   npm install
   ```
-- O arquivo users.json deve conter um usuário com:
-  - username: `admin`
-  - password: `admin`
+- Configure o banco de dados MongoDB conforme instruções acima
+
+ou
 
 ### Executando os testes
 Para rodar todos os testes automatizados, utilize:

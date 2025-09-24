@@ -1,5 +1,7 @@
 
+import 'reflect-metadata';
 import express from 'express';
+import cors from 'cors';
 import { logger } from './middlewares/logger';
 import { errorHandler } from './middlewares/errorHandler';
 import swaggerUi from 'swagger-ui-express';
@@ -8,27 +10,13 @@ import authRoutes from './routes/auth';
 import brandRoutes from './routes/brand';
 import guitarRoutes from './routes/guitar';
 import { jwtMiddleware } from './middlewares/auth';
-import fs from 'fs';
-import path from 'path';
 
-// Criação automática dos arquivos de dados JSON se não existirem
-const dataFiles = [
-  'brands.json',
-  'guitars.json',
-  'users.json',
-];
-const dataDir = path.resolve(__dirname, '../infra/data');
-for (const file of dataFiles) {
-  const filePath = path.join(dataDir, file);
-  if (!fs.existsSync(filePath)) {
-    const initial: any[] = [];
-    fs.writeFileSync(filePath, JSON.stringify(initial, null, 2));
-  }
-}
+import { connectDB } from '../infra/database/mongoose';
 
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(logger);
 
@@ -54,7 +42,7 @@ const swaggerSpec = swaggerJsdoc({
         Brand: {
           type: 'object',
           properties: {
-            id: { type: 'string', example: 'uuid' },
+            _id: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6789', description: 'ObjectId do MongoDB' },
             name: { type: 'string', example: 'Fender' },
             country: { type: 'string', example: 'Estados Unidos' },
             foundedYear: { type: 'string', example: '1946' },
@@ -66,9 +54,9 @@ const swaggerSpec = swaggerJsdoc({
         Guitar: {
           type: 'object',
           properties: {
-            id: { type: 'string', example: 'uuid' },
+            _id: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6790', description: 'ObjectId do MongoDB' },
             model: { type: 'string', example: 'Stratocaster' },
-            brandId: { type: 'string', example: 'uuid' },
+            brandId: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6789', description: 'ObjectId da marca' },
             year: { type: 'integer', example: 2020 },
             strings: { type: 'integer', example: 6 },
             notes: { type: 'string', example: 'Modelo clássico da Fender.' }
@@ -95,7 +83,10 @@ app.get('/', (req, res) => res.send('GuitarAPI is running'));
 app.use(errorHandler);
 
 
+
 if (require.main === module) {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  connectDB().then(() => {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  });
 }

@@ -1,26 +1,29 @@
   // ...existing code...
 import { Request, Response } from 'express';
-import { JsonRepository } from '../../infra/repositories/JsonRepository';
-import { Guitar } from '../../domain/Guitar';
-import { v4 as uuidv4 } from 'uuid';
 
-const repo = new JsonRepository<Guitar>(`${__dirname}/../../infra/data/guitars.json`);
+
+import { container } from '../../config/container';
+import { GuitarService } from '../../services/GuitarService';
 
 export class GuitarController {
+
   // Listar todas as guitarras
   static async getAll(req: Request, res: Response, next: Function) {
     try {
-      res.json(await repo.getAll());
+  const service = container.resolve<GuitarService>('GuitarService');
+  const guitars = await service.getAll();
+  res.json(guitars);
     } catch (err) {
       next(err);
     }
   }
 
+
   // Buscar guitarra por ID
   static async getById(req: Request, res: Response, next: Function) {
     try {
-      const guitars = await repo.getAll();
-      const guitar = guitars.find(g => g.id === req.params.id);
+      const service = container.resolve<GuitarService>('GuitarService');
+      const guitar = await service.getById(req.params.id);
       if (!guitar) {
         const err: any = new Error('Guitarra não encontrada');
         err.status = 404;
@@ -32,49 +35,46 @@ export class GuitarController {
     }
   }
 
+
   // Criar nova guitarra
   static async create(req: Request, res: Response, next: Function) {
     try {
-      const guitars = await repo.getAll();
-      const newGuitar: Guitar = { id: uuidv4(), ...req.body };
-      guitars.push(newGuitar);
-      await repo.saveAll(guitars);
-      res.status(201).json(newGuitar);
+  const service = container.resolve<GuitarService>('GuitarService');
+  const newGuitar = await service.create(req.body);
+  res.status(201).json(newGuitar);
     } catch (err) {
       next(err);
     }
   }
+
 
   // Atualizar guitarra
   static async update(req: Request, res: Response, next: Function) {
     try {
-      const guitars = await repo.getAll();
-      const idx = guitars.findIndex(g => g.id === req.params.id);
-      if (idx === -1) {
+      const service = container.resolve<GuitarService>('GuitarService');
+      const updated = await service.update(req.params.id, req.body);
+      if (!updated) {
         const err: any = new Error('Guitarra não encontrada');
         err.status = 404;
         throw err;
       }
-      guitars[idx] = { ...guitars[idx], ...req.body };
-      await repo.saveAll(guitars);
-      res.json(guitars[idx]);
+      res.json(updated);
     } catch (err) {
       next(err);
     }
   }
 
+
   // Remover guitarra
   static async remove(req: Request, res: Response, next: Function) {
     try {
-      const guitars = await repo.getAll();
-      const idx = guitars.findIndex(g => g.id === req.params.id);
-      if (idx === -1) {
+      const service = container.resolve<GuitarService>('GuitarService');
+      const deleted = await service.remove(req.params.id);
+      if (!deleted) {
         const err: any = new Error('Guitarra não encontrada');
         err.status = 404;
         throw err;
       }
-      const [deleted] = guitars.splice(idx, 1);
-      await repo.saveAll(guitars);
       res.json(deleted);
     } catch (err) {
       next(err);

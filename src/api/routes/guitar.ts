@@ -1,5 +1,6 @@
 
 import { Router } from 'express';
+
 import { GuitarDTO } from '../../domain/dto/GuitarDTO';
 import { validateDto } from '../middlewares/validate';
 import { GuitarController } from '../controllers/GuitarController';

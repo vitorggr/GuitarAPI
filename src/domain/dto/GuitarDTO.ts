@@ -1,6 +1,6 @@
 
 import 'reflect-metadata';
-import { IsString, Length, IsUUID, IsNumber, Min, Max, IsBoolean, IsOptional } from 'class-validator';
+import { IsString, Length, Matches, IsNumber, Min, Max, IsBoolean, IsOptional } from 'class-validator';
 
 // DTO para Guitarra com validações em português
 export class GuitarDTO {
@@ -10,7 +10,8 @@ export class GuitarDTO {
   model!: string;
 
   /** Identificador da marca */
-  @IsUUID('4', { message: 'O brandId deve ser um UUID válido.' })
+  @IsString({ message: 'O brandId deve ser uma string.' })
+  @Matches(/^[a-fA-F0-9]{24}$/, { message: 'O brandId deve ser um ObjectId válido.' })
   brandId!: string;
 
   //

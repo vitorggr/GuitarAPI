@@ -1,10 +1,11 @@
 
 import { Router } from 'express';
+
 import { BrandDTO } from '../../domain/dto/BrandDTO';
 import { validateDto } from '../middlewares/validate';
 import { BrandController } from '../controllers/BrandController';
-import { JsonRepository } from '../../infra/repositories/JsonRepository';
-import { Brand } from '../../domain/Brand';
+import { container } from '../../config/container';
+import { IBrandRepository } from '../../domain/repositories/IBrandRepository';
 
 const router = Router();
 
@@ -43,18 +44,19 @@ const router = Router();
  *       404:
  *         description: Marca não encontrada
  */
-router.patch('/:id/isActive', async (req, res) => {
-	const { isActive } = req.body;
-	if (typeof isActive !== 'boolean') {
-		return res.status(400).json({ mensagem: 'O campo isActive deve ser booleano.' });
+router.patch('/:id/isActive', async (req, res, next) => {
+	try {
+		const { isActive } = req.body;
+		if (typeof isActive !== 'boolean') {
+			return res.status(400).json({ mensagem: 'O campo isActive deve ser booleano.' });
+		}
+			const repo = container.resolve<IBrandRepository>('IBrandRepository');
+		const updated = await repo.update(req.params.id, { isActive });
+		if (!updated) return res.status(404).json({ mensagem: 'Marca não encontrada' });
+		res.json(updated);
+	} catch (err) {
+		next(err);
 	}
-	const repo = new JsonRepository<Brand>(`${__dirname}/../../infra/data/brands.json`);
-	const brands = await repo.getAll();
-	const idx = brands.findIndex((b: Brand) => b.id === req.params.id);
-	if (idx === -1) return res.status(404).json({ mensagem: 'Marca não encontrada' });
-	brands[idx].isActive = isActive;
-	await repo.saveAll(brands);
-	res.json(brands[idx]);
 });
 
 
@@ -236,13 +238,6 @@ router.patch('/:id/isActive', async (req, res) => {
 	if (typeof isActive !== 'boolean') {
 		return res.status(400).json({ mensagem: 'O campo isActive deve ser booleano.' });
 	}
-	const repo = new JsonRepository<Brand>(`${__dirname}/../../infra/data/brands.json`);
-	const brands = await repo.getAll();
-	const idx = brands.findIndex((b: Brand) => b.id === req.params.id);
-	if (idx === -1) return res.status(404).json({ mensagem: 'Marca não encontrada' });
-	brands[idx].isActive = isActive;
-	await repo.saveAll(brands);
-	res.json(brands[idx]);
 });
 
 export default router;
