@@ -4,9 +4,9 @@
   "description": "A REST API for managing guitars, brands, and types, with JSON file persistence.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node src/api/index.ts",
+    "start": "node dist/api/index.js",
     "build": "tsc",
-  "dev": "ts-node-dev --respawn --transpile-only src/api/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/api/index.ts",
     "test": "jest --runInBand --detectOpenHandles"
   },
   "dependencies": {

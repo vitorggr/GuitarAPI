@@ -1,15 +1,5 @@
 
-## Conceitos Utilizados
 
-- **Injeção de dependência (DI):** Técnica para desacoplar componentes do sistema. Controllers e services recebem repositórios via interfaces, e o container do tsyringe resolve a implementação concreta, facilitando testes, manutenção e troca de implementações.
-- **Mongoose:** ODM (Object Data Modeling) para MongoDB em Node.js. Permite definir schemas, models e realizar operações no banco de dados de forma orientada a objetos.
-- **Atlas:** Serviço de banco de dados MongoDB gerenciado na nuvem, fornecendo alta disponibilidade, backups e fácil escalabilidade.
-- **dotenv:** Biblioteca para carregar variáveis de ambiente do arquivo `.env` para `process.env`, facilitando a configuração de dados sensíveis (ex: string de conexão).
-- **Arquitetura em camadas:** O projeto segue a segmentação proposta em aula, separando apresentação, domínio, infraestrutura e aplicação, com inversão de controle e isolamento das operações de negócio.
-- **Repositórios e DTOs:** A lógica de acesso e manipulação de dados está isolada em repositórios, com uso de interfaces e DTOs para validação e tipagem dos dados.
-- **ODM e MongoDB:** Utilização do Mongoose como ODM para mapear documentos do domínio (guitarra, marca, usuário) e realizar operações de CRUD no MongoDB Atlas.
-
----
 
 # GuitarAPI
 
@@ -23,6 +13,18 @@ A API está publicada gratuitamente no Render e pode ser acessada pelos links ab
 
 - **Base URL:** [`https://guitarapi-i15g.onrender.com/`](https://guitarapi-i15g.onrender.com/)
 - **Swagger (Documentação interativa):** [`https://guitarapi-i15g.onrender.com/api-docs`](https://guitarapi-i15g.onrender.com/api-docs)
+
+---
+
+## Conceitos Utilizados
+
+- **Injeção de dependência (DI):** Técnica para desacoplar componentes do sistema. Controllers e services recebem repositórios via interfaces, e o container do tsyringe resolve a implementação concreta, facilitando testes, manutenção e troca de implementações.
+- **Mongoose:** ODM (Object Data Modeling) para MongoDB em Node.js. Permite definir schemas, models e realizar operações no banco de dados de forma orientada a objetos.
+- **Atlas:** Serviço de banco de dados MongoDB gerenciado na nuvem, fornecendo alta disponibilidade, backups e fácil escalabilidade.
+- **dotenv:** Biblioteca para carregar variáveis de ambiente do arquivo `.env` para `process.env`, facilitando a configuração de dados sensíveis (ex: string de conexão).
+- **Arquitetura em camadas:** O projeto segue a segmentação proposta em aula, separando apresentação, domínio, infraestrutura e aplicação, com inversão de controle e isolamento das operações de negócio.
+- **Repositórios e DTOs:** A lógica de acesso e manipulação de dados está isolada em repositórios, com uso de interfaces e DTOs para validação e tipagem dos dados.
+- **ODM e MongoDB:** Utilização do Mongoose como ODM para mapear documentos do domínio (guitarra, marca, usuário) e realizar operações de CRUD no MongoDB Atlas.
 
 ---
 
