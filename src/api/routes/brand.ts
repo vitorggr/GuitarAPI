@@ -40,7 +40,7 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  *       404:
  *         description: Marca não encontrada
  */
@@ -82,7 +82,7 @@ router.patch('/:id/isActive', async (req, res, next) => {
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Brand'
+ *                 $ref: '#/components/schemas/BrandResponse'
  */
 router.get('/', BrandController.getAll);
 
@@ -107,7 +107,7 @@ router.get('/', BrandController.getAll);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  *       404:
  *         description: Marca não encontrada
  */
@@ -126,14 +126,14 @@ router.get('/:id', BrandController.getById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Brand'
+ *             $ref: '#/components/schemas/BrandInput'
  *     responses:
  *       201:
  *         description: Marca criada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  */
 router.post('/', validateDto(BrandDTO), BrandController.create);
 
@@ -157,14 +157,14 @@ router.post('/', validateDto(BrandDTO), BrandController.create);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Brand'
+ *             $ref: '#/components/schemas/BrandInput'
  *     responses:
  *       200:
  *         description: Marca atualizada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  *       404:
  *         description: Marca não encontrada
  */
@@ -191,7 +191,7 @@ router.put('/:id', validateDto(BrandDTO), BrandController.update);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  *       404:
  *         description: Marca não encontrada
  */
@@ -229,7 +229,7 @@ router.delete('/:id', BrandController.remove);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Brand'
+ *               $ref: '#/components/schemas/BrandResponse'
  *       404:
  *         description: Marca não encontrada
  */

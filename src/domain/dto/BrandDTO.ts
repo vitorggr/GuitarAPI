@@ -22,9 +22,10 @@ export class BrandDTO {
   /** Marca ativa? */
   @IsBoolean({ message: 'O campo ativo deve ser booleano.' })
   isActive!: boolean;
+}
 
-  /** Data de cadastro */
-  @IsOptional()
-  @IsDateString({}, { message: 'A data de cadastro deve ser uma data válida.' })
-  createdAt?: string;
+export class BrandResponseDTO extends BrandDTO {
+  readonly _id!: string;
+  readonly createdAt!: string;
+  readonly modifiedAt?: string | null;
 }

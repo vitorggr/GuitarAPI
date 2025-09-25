@@ -30,38 +30,72 @@ A API está publicada gratuitamente no Render e pode ser acessada pelos links ab
 
 ## Funcionalidades
 
-- CRUD completo para marcas e guitarras
-- PATCH para ativar/desativar marcas (`/brands/{id}/isActive`)
-- Endpoint para validação de token JWT (`/auth/authorize`)
-- JWT seguro: tokens são assinados com uma chave secreta forte (256 bits)
-- Persistência dos dados em MongoDB Atlas (banco de dados na nuvem)
-- Validação dos DTOs com mensagens em português
-- Rotas protegidas por autenticação JWT
-- Documentação automática via Swagger
+### Autenticação e Segurança
+- Sistema completo de autenticação JWT
+- Tokens seguros assinados com chave secreta de 256 bits
+- Middleware de autenticação protegendo rotas sensíveis
+- Endpoint de validação de token (`/auth/authorize`)
+
+### Operações de CRUD
+- **Marcas:** Criar, listar, buscar, atualizar e remover marcas
+- **Guitarras:** Criar, listar, buscar, atualizar e remover guitarras
+- **PATCH especial:** Ativar/desativar marcas (`/brands/{id}/isActive`)
+
+### Gestão de Dados
+- **IDs automáticos:** Todos os IDs são gerados pelo MongoDB, nunca enviados pelo usuário
+- **Timestamps automáticos:** `createdAt` definido na criação, `modifiedAt` atualizado nas edições
+- **Chaves estrangeiras:** Em guitarras, o usuário informa apenas o `brandId` da marca existente
+- **Validação robusta:** DTOs validam entrada com mensagens claras em português
+
+### Arquitetura e Tecnologia
+- MongoDB Atlas para persistência na nuvem
+- Arquitetura em camadas (Controllers → Services → Repositories)
 - Injeção de dependência com tsyringe
-- Arquitetura em camadas, com inversão de controle e isolamento das operações de negócio
-- Isolamento da lógica de acesso e manipulação de dados nos repositórios
-- Utilização de interfaces do ODM para operações no banco
+- Documentação interativa via Swagger UI
+- Isolamento completo da lógica de negócio
 
 ---
 
-## Exemplos de Campos
+## Estrutura dos Dados
 
-- **Marcas:** nome, país, ano de fundação, ativo, data de cadastro
-- **Guitarras:** modelo, marca, ano de fabricação, número de cordas, observações
+### Entrada (Request) - O que o usuário envia:
+- **Marcas:** `name`, `country`, `foundedYear`, `isActive`
+- **Guitarras:** `model`, `brandId`, `year`, `strings`, `notes` (opcional)
+- **Usuários:** `username`, `password`
+
+### Saída (Response) - O que a API retorna:
+- **Todos os recursos** incluem: `_id`, `createdAt`, `modifiedAt`
+- **IDs gerados automaticamente** pelo MongoDB
+- **Timestamps controlados** pelo backend (creação e modificação)
 
 ---
 
-## Endpoints de Autenticação
+## Fluxo de Autenticação
 
-- `POST /auth/register`: cria um novo usuário (forneça username e password)
-- `POST /auth/login`: retorna um token JWT para autenticação (forneça username e password de um usuário cadastrado)
-- `POST /auth/authorize`: valida um token JWT e retorna o payload se válido
+A API utiliza autenticação JWT (JSON Web Token) para proteger os endpoints de marcas e guitarras. Siga este fluxo:
 
-### Fluxo sugerido
-1. Registre um usuário usando `POST /auth/register`.
-2. Faça login com esse usuário em `POST /auth/login` para obter o token JWT.
-3. Use o token JWT para acessar os demais endpoints protegidos.
+### 1. Registro de Usuário
+- **Endpoint:** `POST /auth/register`
+- **Dados:** `{ "username": "seu_usuario", "password": "sua_senha" }`
+- **Resposta:** Confirmação de criação do usuário
+
+### 2. Login e Obtenção do Token
+- **Endpoint:** `POST /auth/login`
+- **Dados:** `{ "username": "seu_usuario", "password": "sua_senha" }`
+- **Resposta:** `{ "token": "seu_jwt_token_aqui" }`
+
+### 3. Validação do Token (Opcional)
+- **Endpoint:** `POST /auth/authorize`
+- **Dados:** `{ "token": "seu_jwt_token_aqui" }`
+- **Resposta:** `{ "valid": true, "payload": {...} }`
+
+### 4. Acesso aos Endpoints Protegidos
+Para acessar `/brands` e `/guitars`, inclua o token no cabeçalho:
+```
+Authorization: Bearer seu_jwt_token_aqui
+```
+
+**Importante:** Todos os endpoints de marcas e guitarras requerem autenticação. Sem o token JWT válido, você receberá erro 401 (Unauthorized).
 
 ---
 

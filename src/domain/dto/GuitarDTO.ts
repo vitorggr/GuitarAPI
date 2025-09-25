@@ -36,3 +36,9 @@ export class GuitarDTO {
   @Length(0, 200, { message: 'As observações podem ter até 200 caracteres.' })
   notes?: string;
 }
+
+export class GuitarResponseDTO extends GuitarDTO {
+  readonly _id!: string;
+  readonly createdAt!: string;
+  readonly modifiedAt?: string | null;
+}

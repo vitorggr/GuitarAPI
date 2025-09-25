@@ -10,3 +10,9 @@ export class UserDTO {
   @Length(4, 100, { message: 'A senha deve ter no mínimo 4 caracteres.' })
   password!: string;
 }
+
+export class UserResponseDTO extends UserDTO {
+  readonly _id!: string;
+  readonly createdAt!: string;
+  readonly modifiedAt?: string | null;
+}

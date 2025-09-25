@@ -39,7 +39,17 @@ const swaggerSpec = swaggerJsdoc({
         },
       },
       schemas: {
-        Brand: {
+        BrandInput: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', example: 'Fender' },
+            country: { type: 'string', example: 'Estados Unidos' },
+            foundedYear: { type: 'string', example: '1946' },
+            isActive: { type: 'boolean', example: true }
+          },
+          required: ['name', 'country', 'foundedYear', 'isActive']
+        },
+        BrandResponse: {
           type: 'object',
           properties: {
             _id: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6789', description: 'ObjectId do MongoDB' },
@@ -47,14 +57,13 @@ const swaggerSpec = swaggerJsdoc({
             country: { type: 'string', example: 'Estados Unidos' },
             foundedYear: { type: 'string', example: '1946' },
             isActive: { type: 'boolean', example: true },
-            createdAt: { type: 'string', format: 'date-time', example: '2020-01-01T00:00:00.000Z' }
-          },
-          required: ['name', 'country', 'foundedYear', 'isActive']
+            createdAt: { type: 'string', format: 'date-time', example: '2020-01-01T00:00:00.000Z' },
+            modifiedAt: { type: 'string', format: 'date-time', example: '2020-06-15T14:30:00.000Z', nullable: true }
+          }
         },
-        Guitar: {
+        GuitarInput: {
           type: 'object',
           properties: {
-            _id: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6790', description: 'ObjectId do MongoDB' },
             model: { type: 'string', example: 'Stratocaster' },
             brandId: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6789', description: 'ObjectId da marca' },
             year: { type: 'integer', example: 2020 },
@@ -62,6 +71,19 @@ const swaggerSpec = swaggerJsdoc({
             notes: { type: 'string', example: 'Modelo clássico da Fender.' }
           },
           required: ['model', 'brandId', 'year', 'strings']
+        },
+        GuitarResponse: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6790', description: 'ObjectId do MongoDB' },
+            model: { type: 'string', example: 'Stratocaster' },
+            brandId: { type: 'string', example: '652e1b2f8f1b2c3d4e5f6789', description: 'ObjectId da marca' },
+            year: { type: 'integer', example: 2020 },
+            strings: { type: 'integer', example: 6 },
+            notes: { type: 'string', example: 'Modelo clássico da Fender.' },
+            createdAt: { type: 'string', format: 'date-time', example: '2020-01-01T00:00:00.000Z' },
+            modifiedAt: { type: 'string', format: 'date-time', example: '2020-06-15T14:30:00.000Z', nullable: true }
+          }
         }
       }
     },

@@ -6,6 +6,8 @@ export interface IGuitar {
   year: number;
   strings: number;
   notes?: string | null;
+  createdAt: Date;
+  modifiedAt?: Date | null;
 }
 
 export type IGuitarDocument = Document & IGuitar;
@@ -17,6 +19,8 @@ const GuitarSchema = new Schema({
   year: { type: Number, required: true },
   strings: { type: Number, required: true },
   notes: { type: String },
+  createdAt: { type: Date, default: Date.now, required: true },
+  modifiedAt: { type: Date, default: null },
 });
 
 export const GuitarModel = model('Guitar', GuitarSchema);

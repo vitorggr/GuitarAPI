@@ -9,7 +9,12 @@ export class GuitarRepository implements IGuitarRepository {
   }
 
   async update(id: string, data: Partial<IGuitar>) {
-    return GuitarModel.findByIdAndUpdate(id, data, { new: true });
+    const { createdAt, ...rest } = data;
+    return GuitarModel.findByIdAndUpdate(
+      id,
+      { ...rest, modifiedAt: new Date() },
+      { new: true }
+    );
   }
 
   async delete(id: string) {

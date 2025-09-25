@@ -9,7 +9,12 @@ export class BrandRepository implements IBrandRepository {
   }
 
   async update(id: string, data: Partial<IBrand>) {
-    return BrandModel.findByIdAndUpdate(id, data, { new: true });
+    const { createdAt, ...rest } = data;
+    return BrandModel.findByIdAndUpdate(
+      id,
+      { ...rest, modifiedAt: new Date() },
+      { new: true }
+    );
   }
 
   async delete(id: string) {

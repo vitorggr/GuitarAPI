@@ -30,7 +30,7 @@ const router = Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Guitar'
+ *                 $ref: '#/components/schemas/GuitarResponse'
  */
 router.get('/', GuitarController.getAll);
 
@@ -55,7 +55,7 @@ router.get('/', GuitarController.getAll);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Guitar'
+ *               $ref: '#/components/schemas/GuitarResponse'
  *       404:
  *         description: Guitarra não encontrada
  */
@@ -74,14 +74,14 @@ router.get('/:id', GuitarController.getById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Guitar'
+ *             $ref: '#/components/schemas/GuitarInput'
  *     responses:
  *       201:
  *         description: Guitarra criada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Guitar'
+ *               $ref: '#/components/schemas/GuitarResponse'
  */
 router.post('/', validateDto(GuitarDTO), GuitarController.create);
 
@@ -105,14 +105,14 @@ router.post('/', validateDto(GuitarDTO), GuitarController.create);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Guitar'
+ *             $ref: '#/components/schemas/GuitarInput'
  *     responses:
  *       200:
  *         description: Guitarra atualizada
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Guitar'
+ *               $ref: '#/components/schemas/GuitarResponse'
  *       404:
  *         description: Guitarra não encontrada
  */
@@ -139,7 +139,7 @@ router.put('/:id', validateDto(GuitarDTO), GuitarController.update);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Guitar'
+ *               $ref: '#/components/schemas/GuitarResponse'
  *       404:
  *         description: Guitarra não encontrada
  */
