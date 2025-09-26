@@ -3,7 +3,7 @@
 
 # GuitarAPI
 
-API RESTful criada para fins acadêmicos e de demonstração para gerenciamento de guitarras e marcas, construída com TypeScript, Express, MongoDB (Mongoose), injeção de dependência e arquitetura em camadas.
+API RESTful criada para fins de demonstração para gerenciamento de guitarras e marcas, construída com TypeScript, Express, MongoDB (Mongoose), injeção de dependência e arquitetura em camadas.
 
 ---
 
@@ -22,51 +22,9 @@ A API está publicada gratuitamente no Render e pode ser acessada pelos links ab
 - **Mongoose:** ODM (Object Data Modeling) para MongoDB em Node.js. Permite definir schemas, models e realizar operações no banco de dados de forma orientada a objetos.
 - **Atlas:** Serviço de banco de dados MongoDB gerenciado na nuvem, fornecendo alta disponibilidade, backups e fácil escalabilidade.
 - **dotenv:** Biblioteca para carregar variáveis de ambiente do arquivo `.env` para `process.env`, facilitando a configuração de dados sensíveis (ex: string de conexão).
-- **Arquitetura em camadas:** O projeto segue a segmentação proposta em aula, separando apresentação, domínio, infraestrutura e aplicação, com inversão de controle e isolamento das operações de negócio.
+- **Arquitetura em camadas:** O projeto segue a segmentação recomendada pelas boas práticas, separando apresentação, domínio, infraestrutura e aplicação, com inversão de controle e isolamento das operações de negócio.
 - **Repositórios e DTOs:** A lógica de acesso e manipulação de dados está isolada em repositórios, com uso de interfaces e DTOs para validação e tipagem dos dados.
 - **ODM e MongoDB:** Utilização do Mongoose como ODM para mapear documentos do domínio (guitarra, marca, usuário) e realizar operações de CRUD no MongoDB Atlas.
-
----
-
-## Funcionalidades
-
-### Autenticação e Segurança
-- Sistema completo de autenticação JWT
-- Tokens seguros assinados com chave secreta de 256 bits
-- Middleware de autenticação protegendo rotas sensíveis
-- Endpoint de validação de token (`/auth/authorize`)
-
-### Operações de CRUD
-- **Marcas:** Criar, listar, buscar, atualizar e remover marcas
-- **Guitarras:** Criar, listar, buscar, atualizar e remover guitarras
-- **PATCH especial:** Ativar/desativar marcas (`/brands/{id}/isActive`)
-
-### Gestão de Dados
-- **IDs automáticos:** Todos os IDs são gerados pelo MongoDB, nunca enviados pelo usuário
-- **Timestamps automáticos:** `createdAt` definido na criação, `modifiedAt` atualizado nas edições
-- **Chaves estrangeiras:** Em guitarras, o usuário informa apenas o `brandId` da marca existente
-- **Validação robusta:** DTOs validam entrada com mensagens claras em português
-
-### Arquitetura e Tecnologia
-- MongoDB Atlas para persistência na nuvem
-- Arquitetura em camadas (Controllers → Services → Repositories)
-- Injeção de dependência com tsyringe
-- Documentação interativa via Swagger UI
-- Isolamento completo da lógica de negócio
-
----
-
-## Estrutura dos Dados
-
-### Entrada (Request) - O que o usuário envia:
-- **Marcas:** `name`, `country`, `foundedYear`, `isActive`
-- **Guitarras:** `model`, `brandId`, `year`, `strings`, `notes` (opcional)
-- **Usuários:** `username`, `password`
-
-### Saída (Response) - O que a API retorna:
-- **Todos os recursos** incluem: `_id`, `createdAt`, `modifiedAt`
-- **IDs gerados automaticamente** pelo MongoDB
-- **Timestamps controlados** pelo backend (creação e modificação)
 
 ---
 
@@ -139,18 +97,6 @@ PASS  src/__tests__/auth.test.ts
 Test Suites: 3 passed, 3 total
 Tests:       4 passed, 4 total
 ```
-
----
-
-## Estrutura dos Controllers
-
-Os controllers estão localizados em [`src/api/controllers`](src/api/controllers ):
-
-- **UserController.ts**: Gerencia registro, login e autorização de usuários, utilizando injeção de dependência para resolver o serviço de usuário.
-- **BrandController.ts**: Gerencia operações de CRUD e ativação/desativação de marcas, sempre exigindo autenticação JWT.
-- **GuitarController.ts**: Gerencia operações de CRUD de guitarras, exigindo autenticação e validação de dependência com marcas.
-
-Todos os controllers seguem o padrão de arquitetura em camadas, utilizando services e repositórios injetados via tsyringe, garantindo isolamento da lógica de apresentação, negócio e acesso a dados.
 
 ---
 
